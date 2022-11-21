@@ -11,5 +11,4 @@ for post in AskReddit_subreddit:
     f.write(post.title)
     f.write("\n")
 
-
-
+f.close()
