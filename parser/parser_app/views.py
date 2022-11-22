@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import praw
+from better_profanity import profanity
 from decouple import config
 
 
@@ -8,11 +9,17 @@ title_list=[]
 
 def reddit_parser(word_input):
     reddit = praw.Reddit(client_id= config("client_id", default=''), client_secret= config("client_secret", default=''), user_agent= config("user_agent", default=''))
-    AskReddit_subreddit  = reddit.subreddit('AskReddit').search(word_input, limit=20)
+    AskReddit_subreddit  = reddit.subreddit('AskReddit').search(word_input)
     for post in AskReddit_subreddit:
-        title = post.title
-        data = {'title': title }
-        title_list.append(data)
+        if profanity.contains_profanity(post.title) == 0:
+            if ("redditors" in post.title) == False:
+                if ("Redditors" in post.title)  == False:
+                    if ("reddit" in post.title) == False:
+                        title = post.title
+                        data = {'title': title }
+                        title_list.append(data)
+        else:
+            continue
     print(title_list)
 
 #reddit_parser()
