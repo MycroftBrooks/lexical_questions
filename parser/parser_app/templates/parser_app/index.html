@@ -5,26 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/26730bb8f4.js" crossorigin="anonymous"></script>
     <style>
     body {background: #f4f4f4;}
     </style>
 </head>
   <body>
-    
     <div class="container">
-        <nav class="navbar">
-            <a class="navbar-brand" href="#">Default</a>
-        </nav>
-    </div>
-    <div class="container">
-        <div class="row">
-            <h3 class "text-centre">Список предложений</h3>
-            {% for post in title_list %}
-                <h5 class="text-centre">{{ post.title }}</h5>
-            {% endfor %}
-        </div>
-    </div>
+      <div class="container">
+          <nav class="navbar">
+              <a class="navbar-brand" href="{% url 'index' %}">Lexical Questions</a>
+          </nav>
+      </div>
+      <div class="container">
+        <div class="row height d-flex justify-content-center align-items-center">
+          <div class="col-md-6 py-4">
+            <form class="form_control" method="post">
+              <div class="form">
+                {% csrf_token %}
+                <input type="text" class="form-control form-input" placeholder="Enter the word or phrase" name="word_input">
+              </div>
+            </form>
+          </div>
 
+        </div>
+      </div>
+      <div class="container">
+          <div class="row">
+              {% for post in title_list %}
+                  <h5 class="text-centre">{{ post.title }}</h5>
+              {% endfor %}
+          </div>
+      </div>
+    </div>
 
 
 

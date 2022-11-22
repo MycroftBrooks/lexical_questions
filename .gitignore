@@ -2,3 +2,4 @@
 parser/.env
 parser/parser/.env
 parser/parser_app/.env
+.vscode/launch.json
