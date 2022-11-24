@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Lexical Questions</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/26730bb8f4.js" crossorigin="anonymous"></script>
     <style>
     body {background: #f4f4f4;}
@@ -30,15 +31,40 @@
 
         </div>
       </div>
-      <div class="container">
-          <div class="row">
+      {% comment %} <center><div class="spinner-border text-secondary mt-3" id="spinner_list" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div></center> {% endcomment %}
+      <div class="container" id="list_string">
+          <div class="row" id="list_string">
               {% for post in title_list %}
-                  <h5 class="text-centre">{{ post.title }}</h5>
+                  <h5 class="text-centre" id="list_string">{{ post.title }}</h5>
               {% endfor %}
           </div>
       </div>
     </div>
-
+    {% comment %} <script>
+      $(document).ready(function(){
+        $("#spinner_list").hide();
+        $(".form_control").submit(function(event){
+            event.preventDefault();
+            $("#list_string").hide();
+            $("#spinner_list").show();
+            $.ajax({
+                url: "{% url 'index' %}",
+                method: "POST",
+                data: {
+                    word_input: $(".form-control").val(),
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()
+                },
+                success: function(response){
+                    $("#spinner_list").hide();
+                    $("#list_string").show();
+                    $("#list_string").html(data);
+                }
+            });
+        });
+    });
+    </script> {% endcomment %}
 
 
 

@@ -2,6 +2,7 @@ from django.shortcuts import render
 import praw
 from better_profanity import profanity
 from decouple import config
+import re
 
 
 
@@ -9,18 +10,24 @@ title_list=[]
 
 def reddit_parser(word_input):
     reddit = praw.Reddit(client_id= config("client_id", default=''), client_secret= config("client_secret", default=''), user_agent= config("user_agent", default=''))
-    AskReddit_subreddit  = reddit.subreddit('AskReddit').search(word_input)
-    for post in AskReddit_subreddit:
-        if profanity.contains_profanity(post.title) == 0:
-            if ("redditors" in post.title) == False:
-                if ("Redditors" in post.title)  == False:
-                    if ("reddit" in post.title) == False:
-                        title = post.title
-                        data = {'title': title }
-                        title_list.append(data)
-        else:
-            continue
-    print(title_list)
+    #ListOfBannedWords = ["nsfw", "sorry if", "reddit", "[serious]", "reddit", "redditor", "redditors", "reddit\'s"]
+    if profanity.contains_profanity(word_input):
+        title = "YOUR SEARCH CONTAINS PROFANITY"
+        data = {'title': title }
+        title_list.append(data)
+    else:
+        AskReddit_subreddit  = reddit.subreddit('AskReddit').search(query = word_input, sort = 'hot')
+        words = {"nsfw", "sorry if", "reddit", "serious", "reddit", "redditor", "redditors", "reddit\'s"}
+        for post in AskReddit_subreddit:
+            if profanity.contains_profanity(post.title) == 0:
+                mut = words & set(re.findall(r"(\w+)", post.title.casefold()))
+                if len(mut) == 0:
+                    title = post.title
+                    data = {'title': title }
+                    title_list.append(data) 
+            else:
+                continue
+        print(title_list)
 
 #reddit_parser()
 
