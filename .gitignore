@@ -1,5 +1,4 @@
-/.env
-parser/.env
-parser/parser/.env
-parser/parser_app/.env
-.vscode/launch.json
+**/.env
+**/__pycache__
+venv
+.vscode/launch.jsson
