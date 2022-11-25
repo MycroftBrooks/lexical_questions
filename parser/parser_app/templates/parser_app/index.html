@@ -40,7 +40,9 @@
               {% for post in title_list %}
                 {% comment %} {{ post.title|highlight_word }} {% endcomment %}
                 {% comment %} {{ post.title|replace(f'{word_input}', f'<h5><u>{word_input}</u></h5>')}} {% endcomment %}
-                  <h5 class="text-centre" id="list_string">{{ post.title|highlight_word(word_input) }}</h5>
+                {% autoescape off %}
+                  <h5 class="text-centre" id="list_string">{{ post.title }}</h5>
+                {% endautoescape %}
               {% endfor %}
           </div>
       </div>
