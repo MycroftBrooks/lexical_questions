@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\akimz\Desktop\учеба\!my projects\parser_reddit\venv"
+VIRTUAL_ENV="C:\Users\maxim\Desktop\parser_reddit\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
