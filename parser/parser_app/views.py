@@ -29,18 +29,21 @@ def reddit_parser(word_input):
                 continue
         print(title_list)
 
-#reddit_parser()
-
-
 def index(request):
     context = {
-        'title_list': title_list
+        'title_list': title_list,
     }
     if request.method == "POST":
         title_list.clear()
         word_input = str(request.POST["word_input"])
         reddit_parser(word_input)
+        context = {
+            'title_list': title_list,
+            'word_input': word_input
+        }
         return render(request, 'parser_app/index.html', context)
     else:
         return render(request, "parser_app/index.html")
 
+def get_word_input(word_input):
+    return word_input
