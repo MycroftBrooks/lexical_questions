@@ -46,7 +46,7 @@ def reddit_parser(word_input):
                     print(res)
                     for e in res:
                         title = title.replace(
-                            e, f"<span style='color:green'>{e}</span>"
+                            e, f"<mark><span style='color:green'>{e}</span></mark>"
                         )
                     data = {"title": title}
                     title_list.append(data)
