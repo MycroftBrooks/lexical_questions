@@ -23,6 +23,7 @@ def reddit_parser(word_input):
                 mut = words & set(re.findall(r"(\w+)", post.title.casefold()))
                 if len(mut) == 0:
                     title = post.title
+                    
                     data = {'title': title }
                     title_list.append(data) 
             else:
