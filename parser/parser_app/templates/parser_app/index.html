@@ -47,14 +47,24 @@
       {% load highlight_word %}
       <div class="container" id="list_string">
           <div class="row" id="list_string">
-            {% for definition in dictionary_definition%}
-              <h4 class="text-center pt-3 pb-3">{{ definition.definition }}</h4>
-            {% endfor %}
+              {% if dictionary_definition|length > 0 %} 
+                <div class="shadow p-4 mb-5 bg-body rounded container">
+                  {% for definition in dictionary_definition%}
+                    <h4 class="pt-3 pb-3">{{ definition.definition }}</h4>
+                  {% endfor %}
+                  {% if dictionary_examples|length > 0 %} 
+                    <br/>
+                    {% for definition in dictionary_examples%}
+                      <h7 class="text-center pt-3 pb-3">&#8901; {{ definition.dictionary_examples }}</h4><br/>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              {% endif %}
               {% for post in title_list %}
                 {% comment %} {{ post.title|highlight_word }} {% endcomment %}
                 {% comment %} {{ post.title|replace(f'{word_input}', f'<h5><u>{word_input}</u></h5>')}} {% endcomment %}
                 {% autoescape off %}
-                  <h5 class="text-centre" id="list_string">{{ post.title }}</h5>
+                  <h5 id="list_string">{{ post.title }}</h5>
                 {% endautoescape %}
               {% endfor %}
           </div>

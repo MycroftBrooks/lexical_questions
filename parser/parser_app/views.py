@@ -15,19 +15,23 @@ from .models import ChildQuestions
 
 title_list = []
 dictionary_definition = []
+dictionary_examples = []
 
 def index(request):
     context = {
         "title_list": title_list,
-        "dictionary_definition": dictionary_definition
+        "dictionary_definition": dictionary_definition,
+        "dictionary_examples": dictionary_examples
     }
     if request.method == "POST":
         title_list.clear()
         dictionary_definition.clear()
+        dictionary_definition.clear()
+        dictionary_examples.clear()
         word_input = str(request.POST["word_input"])
         cambridge_parser(word_input)
         reddit_parser(word_input)
-        context = {"title_list": title_list, "word_input": word_input, "dictionary_definition": dictionary_definition}
+        context = {"title_list": title_list, "word_input": word_input, "dictionary_definition": dictionary_definition, "dictionary_examples": dictionary_examples}
         return render(request, "parser_app/index.html", context)
     else:
         return render(request, "parser_app/index.html")
@@ -153,10 +157,12 @@ def cambridge_parser(word_input):
     except AttributeError as err:
         print("No definition found")
     try:
-        all_examples = soup.find('div', class_='degs had lbt lb-cm').findAll(lambda tag: tag.name == 'span' and tag.get('class') == ['deg']) # 
+        all_examples = soup.find('div', class_="dataset dd pr lmb-20").findAll('span', class_="deg") 
         print(len(all_examples))
         for el in all_examples:
             print(el.text)
+            data_examples = {"dictionary_examples": el.text}
+            dictionary_examples.append(data_examples)
     except AttributeError as err:
         print("No example found")
     
