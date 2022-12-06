@@ -47,6 +47,9 @@
       {% load highlight_word %}
       <div class="container" id="list_string">
           <div class="row" id="list_string">
+            {% for definition in dictionary_definition%}
+              <h4 class="text-center pt-3 pb-3">{{ definition.definition }}</h4>
+            {% endfor %}
               {% for post in title_list %}
                 {% comment %} {{ post.title|highlight_word }} {% endcomment %}
                 {% comment %} {{ post.title|replace(f'{word_input}', f'<h5><u>{word_input}</u></h5>')}} {% endcomment %}
