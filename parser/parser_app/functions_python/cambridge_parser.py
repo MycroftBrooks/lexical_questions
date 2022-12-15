@@ -11,7 +11,6 @@ def cambridge_parser(word_input, dictionary_definition, dictionary_examples):
         definition = soup.find("div", class_="def ddef_d db").text
         data = {"definition": definition}
         dictionary_definition.append(data)
-        print('its ok')
     except AttributeError as err:
         print("No definition found")
     try:

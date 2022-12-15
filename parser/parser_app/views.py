@@ -12,7 +12,7 @@ title_list = []
 dictionary_definition = []
 dictionary_examples = [] 
 
-#Adult section
+#Adult section main page
 def index(request):
     context = {
         "title_list": title_list,
