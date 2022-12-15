@@ -59,11 +59,21 @@
                   {% endif %}
                 </div>
               {% endif %}
-              {% for post in title_list %}
-                {% autoescape off %}
-                  <h5 id="list_string">{{ post.title }}</h5>
-                {% endautoescape %}
-              {% endfor %}
+              {% if title_list|length > 0 %} 
+                {% for post in title_list %}
+                  {% autoescape off %}
+                    <h5 id="list_string">{{ post.title }}</h5>
+                  {% endautoescape %}
+                {% endfor %}
+              {% endif %}
+              {% if dictionary_definition|length == 0 %}
+                {% if title_list|length == 0 %}
+                  <div class="text-centre">
+                    <h4 class="pt-3 pb-3">No results found, try another word</h4>
+                  </div>
+                {% endif %}
+              {% endif %}
+
           </div>
       </div>
     </div>

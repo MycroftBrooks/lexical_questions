@@ -2,8 +2,8 @@ import praw
 import logging
 logging.basicConfig(level = logging.INFO)
 
-""" import re
-import requests
+import re
+"""import requests
 import bs4 """
 from decouple import config
 
@@ -66,29 +66,21 @@ def reddit_parser(word_input, title_list):
         AskReddit_subreddit = reddit.subreddit("AskReddit").search(
             query=word_input, sort="hot", limit=30
         )
-        numlen = 0
         for post in AskReddit_subreddit:
-            numlen += 1
-        if numlen == 0:
-            title = "NO RESULTS FOUND"
-            data = {"title": title}
-            title_list.append(data)
-        else:
-            for post in AskReddit_subreddit:
-                if profanity.contains_profanity(post.title) == 0:
-                    mut = words & set(re.findall(r"(\w+)", post.title.casefold()))
-                    if len(mut) == 0:
-                        w = word_input[0].lower()
-                        w1 = word_input[0].upper()
-                        word = f"\\b[{w}{w1}]{word_input[1:]}\\w?\\b"
-                        title = post.title
-                        res = re.findall(word, title)
-                        for e in res:
-                            title = title.replace(
-                                e, f"<mark><span style='color:green'>{e}</span></mark>"
-                            )
-                        data = {"title": title}
-                        title_list.append(data)
-                else:
-                    continue
+            if profanity.contains_profanity(post.title) == 0:
+                mut = words & set(re.findall(r"(\w+)", post.title.casefold()))
+                if len(mut) == 0:
+                    w = word_input[0].lower()
+                    w1 = word_input[0].upper()
+                    word = f"\\b[{w}{w1}]{word_input[1:]}\\w?\\b"
+                    title = post.title
+                    res = re.findall(word, title)
+                    for e in res:
+                        title = title.replace(
+                            e, f"<mark><span style='color:green'>{e}</span></mark>"
+                        )
+                    data = {"title": title}
+                    title_list.append(data)
+            else:
+                continue
         
