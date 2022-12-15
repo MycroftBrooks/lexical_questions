@@ -1,5 +1,6 @@
 **/.env
 .vscode/launch.json
+**/test.txt
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -155,3 +156,4 @@ dmypy.json
 cython_debug/
 
 .vscode
+parser/parser_app/functions_python/reddit_parser.py
