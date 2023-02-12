@@ -1,55 +1,102 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Lexical Questions</title>
-    <link href="//db.onlinewebfonts.com/c/6899c3dcee443716273e3f7926cc1ec7?family=Rhinos+rocks" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link
+      href="//db.onlinewebfonts.com/c/6899c3dcee443716273e3f7926cc1ec7?family=Rhinos+rocks"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/26730bb8f4.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/26730bb8f4.js"
+      crossorigin="anonymous"
+    ></script>
     <style>
-    body {background: #f4f4f4;}
+      body {
+        background: #f4f4f4;
+      }
     </style>
-</head>
+  </head>
   <body>
     <div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between pb-1 pt-3 mb-3 border-bottom">
-        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-          <p style="font-family: blocktastic, sans-serif; font-size: 1.2em;" class="pt-1 ps-1">Lexical Questions</p>
+      <header
+        class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between pb-1 pt-3 mb-3 border-bottom"
+      >
+        <a
+          href="/"
+          class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none"
+        >
+          <p
+            style="font-family: blocktastic, sans-serif; font-size: 1.2em"
+            class="pt-1 ps-1"
+          >
+            Lexical Questions
+          </p>
         </a>
-          <div class="col-md-3 text-end">
-            <a href="{% url 'index' %}"><button type="button" class="btn btn-outline-primary me-2">Show adult questions</button></a>
-
-          </div>
+        <div class="col-md-3 text-center">
+          <a href="{% url 'index' %}"
+            ><button type="button" class="btn btn-outline-primary me-2">
+              Show adult questions
+            </button></a
+          >
+        </div>
+        <div class="col-md-3 text-end">
+          {% if request.user.is_anonymous %}<a href="{% url 'register' %}"
+            ><button type="button" class="btn btn-success me-2">
+              Register
+            </button></a
+          >{%endif%} {% if request.user.is_authenticated %}<a
+            href="{% url 'logout' %}"
+            ><button type="button" class="btn btn-danger">Выйти</button></a
+          >{% endif %}
+        </div>
       </header>
       <div class="container">
-        <div class="row pt-3 pb-4" >
+        <div class="row pt-3 pb-4">
           <div class="col-md-5 mx-auto">
             <form class="form_control" method="post">
               {% csrf_token %}
               <div class="input-group">
-                  <input class="form-control border-end-0 border rounded-pill" type="text" placeholder="Enter the word or phrase" name="word_input">
-                  <span class="input-group-append">
-                      <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="submit">
-                          <i class="fa fa-search"></i>
-                      </button>
-                  </span>
+                <input
+                  class="form-control border-end-0 border rounded-pill"
+                  type="text"
+                  placeholder="Enter the word or phrase"
+                  name="word_input"
+                />
+                <span class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5"
+                    type="submit"
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span>
               </div>
             </form>
           </div>
-      </div>
+        </div>
       </div>
       <div class="container" id="list_string">
-          <div class="row" id="list_string">
-              {% for post in title_list %}
-                {% autoescape off %}
-                  <h5 class="text-centre" id="list_string">{{ post.title }}</h5>
-                {% endautoescape %}
-              {% endfor %}
-          </div>
+        <div class="row" id="list_string">
+          {% for post in title_list %} {% autoescape off %}
+          <h5 class="text-centre" id="list_string">{{ post.title }}</h5>
+          {% endautoescape %} {% endfor %}
+        </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

@@ -1,13 +1,16 @@
 import praw
 import logging
-logging.basicConfig(level = logging.INFO)
+
+logging.basicConfig(level=logging.INFO)
 
 import re
+
 """import requests
 import bs4 """
 from decouple import config
 
 from better_profanity import profanity
+
 
 def reddit_parser(word_input, title_list):
     reddit = praw.Reddit(
@@ -16,15 +19,15 @@ def reddit_parser(word_input, title_list):
         user_agent=config("user_agent", default=""),
     )
     words = {
-            "nsfw",
-            "sorry if",
-            "reddit",
-            "serious",
-            "reddit",
-            "redditor",
-            "redditors",
-            "reddit's",
-            "onlyfans",
+        "nsfw",
+        "sorry if",
+        "reddit",
+        "serious",
+        "reddit",
+        "redditor",
+        "redditors",
+        "reddit's",
+        "onlyfans",
     }
     if profanity.contains_profanity(word_input):
         title = "YOUR SEARCH CONTAINS PROFANITY"
@@ -51,4 +54,3 @@ def reddit_parser(word_input, title_list):
                     title_list.append(data)
             else:
                 continue
-        
