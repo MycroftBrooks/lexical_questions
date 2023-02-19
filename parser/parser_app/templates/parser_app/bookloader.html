@@ -1,0 +1,48 @@
+{% extends 'parser_app/base.html' %}
+
+{% block title %}Load Book{% endblock %}
+{%block content%}
+{% if submitted %}
+        <div class="alert alert-success" role="alert">
+            Book successfully uploaded!
+        </div>
+{% endif %}
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                <a href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">
+                    <a href="{% url 'profile' %}">User Profile</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <a>Upload Book</a>
+                </li>
+            </ol>
+            </nav>
+        </div>
+    </div>
+    <h3 class="mb-3">Load Book</h3>
+  </div>
+  <div class="container shadow p-4 mb-5 bg-body rounded">
+    <form action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-3">
+        {{form.as_p}}
+        <span>{{error}}</span>
+      </div>
+      <div class="d-flex flex-wrap align-items-center justify-content-center  pb-3 pt-3">
+        <div class="col-md-3 text-start">
+            <button type="submit" class="btn btn-primary ">Load pdf file</button>
+        </div>  
+        <div class="col-md-3 text-end">
+            <a href="#" class="btn btn-secondary">Check the list of loaded books</a>
+        </div>
+      </div>
+  </form>
+</div>  
+
+{% endblock %}
