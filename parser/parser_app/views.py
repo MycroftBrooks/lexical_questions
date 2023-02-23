@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from .forms import RegisterUserFrom
+from django.contrib.auth.decorators import user_passes_test
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -15,6 +16,10 @@ from .models import ChildQuestions
 title_list = []
 dictionary_definition = []
 dictionary_examples = []
+
+
+# Decorator for views that checks that the user is anonymous, redirecting
+
 
 # Adult section main page
 def index(request):
@@ -61,6 +66,8 @@ def child_questions(request):
 
 
 # Registarion page
+
+
 def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -77,6 +84,23 @@ def register(request):
     return render(request, "parser_app/register.html", {"form": form})
 
 
+# Login page
+def login_user(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("index")
+        else:
+            messages.warning(request, "Логин или пароль неверны")
+            return render(request, "parser_app/login.html")
+    else:
+        return render(request, "parser_app/login.html")
+
+
+# Logout redirect
 def logout_user(request):
     logout(request)
     messages.success(request, ("Вы вышли из аккаунта"))

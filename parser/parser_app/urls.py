@@ -7,7 +7,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("child_questions/", views.child_questions, name="child_questions"),
     path("register/", views.register, name="register"),
-    # path("login/", views.login, name="login"),
+    path("login/", views.login_user, name="login"),
     path("logout", views.logout_user, name="logout"),
 ]
 """ if settings.DEBUG:

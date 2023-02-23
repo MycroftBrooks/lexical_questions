@@ -50,7 +50,12 @@
           >
         </div>
         <div class="col-md-3 text-end">
-          {% if request.user.is_anonymous %}<a href="{% url 'register' %}"
+          {% if request.user.is_anonymous %}<a href="{% url 'login' %}"
+            ><button type="button" class="btn btn-primary me-2">
+              Sign in
+            </button></a
+          >{%endif%} {% if request.user.is_anonymous %}<a
+            href="{% url 'register' %}"
             ><button type="button" class="btn btn-success me-2">
               Register
             </button></a
