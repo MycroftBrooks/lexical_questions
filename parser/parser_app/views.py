@@ -104,6 +104,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, "Вы вошли как " + username)
             return redirect("index")
         else:
             messages.warning(request, "Логин или пароль неверны")
@@ -115,5 +116,5 @@ def login_user(request):
 # Logout redirect
 def logout_user(request):
     logout(request)
-    messages.success(request, ("Вы вышли из аккаунта"))
+    messages.warning(request, ("Вы вышли из аккаунта"))
     return redirect("index")

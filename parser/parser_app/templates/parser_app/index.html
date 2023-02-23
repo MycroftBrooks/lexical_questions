@@ -32,6 +32,13 @@
           </div>
       </header>
       <div class="container">
+        {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
         <div class="row pt-3 pb-4" >
           <div class="col-md-5 mx-auto">
             <form class="form_control" method="post">
