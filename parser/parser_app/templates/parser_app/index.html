@@ -1,108 +1,55 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lexical Questions</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/26730bb8f4.js" crossorigin="anonymous"></script>
-    <link rel="apple-touch-icon" sizes="180x180" href="../../../static/parser_app/images/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="../../../static/parser_app/images/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../../../static/parser_app/images/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <style>
-    body {background: #f4f4f4;}
-    </style>
-</head>
-  <body>
-    <div class="container">
-      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between pb-1 pt-3 mb-3 border-bottom">
-        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-          <p style="font-family: blocktastic, sans-serif; font-size: 1.2em;" class="pt-1 ps-1">Lexical Questions</p>
-        </a>
-        <div class="col-md-3 text-center">
-          <a href="{% url 'child_questions' %}"><button type="button" class="btn btn-outline-primary me-2">Show children questions</button></a>
-        </div>  
-          <div class="col-md-3 text-end">
-            {% if request.user.is_anonymous %}<a href="{% url 'login' %}"><button type="button" class="btn btn-primary me-2">Sign in</button></a>{%endif%}
-            {% if request.user.is_anonymous %}<a href="{% url 'register' %}"><button type="button" class="btn btn-success me-2">Register</button></a>{%endif%}
-            {% if request.user.is_authenticated %}<a href="{% url 'logout' %}"><button type="button" class="btn btn-danger">Выйти</button></a>{% endif %}
-          </div>
-      </header>
-      <div class="container">
-        {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-        <div class="row pt-3 pb-4" >
-          <div class="col-md-5 mx-auto">
-            <form class="form_control" method="post">
-              {% csrf_token %}
-              <div class="input-group">
-                  <input class="form-control border-end-0 border rounded-pill" type="text" placeholder="Enter the word or phrase" name="word_input">
-                  <span class="input-group-append">
-                      <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="submit">
-                          <i class="fa fa-search"></i>
-                      </button>
-                  </span>
-              </div>
-            </form>
-          </div>
-      </div>
-      </div>
-      </div>
-      <center><div class="spinner-border text-secondary mt-3" id="spinner_list" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div></center>
-      <div class="container" id="list_string">
-          <div class="row" id="list_string">
-              {% if dictionary_definition|length > 0 %} 
-                <div class="shadow p-4 mb-5 bg-body rounded container">
-                  {% for definition in dictionary_definition%}
-                    <h4 class="pt-3 pb-3">{{ definition.definition }}</h4>
-                  {% endfor %}
-                  {% if dictionary_examples|length > 0 %} 
-                    <br/>
-                    {% for definition in dictionary_examples%}
-                      <h7 class="text-center pt-3 pb-3">&#8901; {{ definition.dictionary_examples }}</h4><br/>
-                    {% endfor %}
-                  {% endif %}
-                </div>
-              {% endif %}
-              {% if title_list|length > 0 %} 
-                {% for post in title_list %}
-                  {% autoescape off %}
-                    <h5 id="list_string">{{ post.title }}</h5>
-                  {% endautoescape %}
-                {% endfor %}
-              {% endif %}
-              {% if dictionary_definition|length == 0 %}
-                {% if title_list|length == 0 %}
-                  <div class="text-centre">
-                    <h4 class="pt-3 pb-3">No results found, try another word</h4>
-                  </div>
-                {% endif %}
-              {% endif %}
+{% extends 'parser_app/base.html' %}
 
-          </div>
-      </div>
+{% block title %}Lexical Questions{% endblock %}
+{%block content%}
+  <div class="row pt-3 pb-4" >
+    <div class="col-md-5 mx-auto">
+      <form class="form_control" method="post">
+        {% csrf_token %}
+        <div class="input-group">
+            <input class="form-control border-end-0 border rounded-pill" type="text" placeholder="Enter the word or phrase" name="word_input">
+            <span class="input-group-append">
+                <button class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+      </form>
     </div>
-    <script>
-      jQuery(function ($) {
-        $("#spinner_list").hide();
-        $(document).ajaxSend(function () {
-          $("#spinner_list").show();
-        });
-        $(document).ajaxComplete(function () {
-          $("#spinner_list").hide();
-        });
-      });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  </body>
-</html>
+</div>
+</div>
+</div>
+<div class="container" id="list_string">
+    <div class="row" id="list_string">
+        {% if dictionary_definition|length > 0 %} 
+          <div class="shadow p-4 mb-5 bg-body rounded container">
+            {% for definition in dictionary_definition%}
+              <h4 class="pt-3 pb-3">{{ definition.definition }}</h4>
+            {% endfor %}
+            {% if dictionary_examples|length > 0 %} 
+              <br/>
+              {% for definition in dictionary_examples%}
+                <h7 class="text-center pt-3 pb-3">&#8901; {{ definition.dictionary_examples }}</h4><br/>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endif %}
+        {% if title_list|length > 0 %} 
+          {% for post in title_list %}
+            {% autoescape off %}
+              <h5 id="list_string">{{ post.title }}</h5>
+            {% endautoescape %}
+          {% endfor %}
+        {% endif %}
+        {% if dictionary_definition|length == 0 %}
+          {% if title_list|length == 0 %}
+            <div class="text-centre">
+              <h4 class="pt-3 pb-3">No results found, try another word</h4>
+            </div>
+          {% endif %}
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
