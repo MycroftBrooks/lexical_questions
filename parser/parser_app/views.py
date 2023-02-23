@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from .forms import RegisterUserFrom
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.forms import UserCreationForm
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -81,7 +82,7 @@ def child_questions(request):
 @anonymous_required
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegisterUserFrom(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
