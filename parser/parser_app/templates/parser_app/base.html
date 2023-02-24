@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/26730bb8f4.js" crossorigin="anonymous"></script>
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'parser_app/images/favicon/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'parser_app/images/favicon/favicon.svg' %}">
     <style>
     body {background: #f4f4f4;}
     </style>
@@ -18,7 +18,8 @@
     <div class="container">
       <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between pb-1 pt-3 mb-3 border-bottom">
         <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-          <p style="font-family: blocktastic, sans-serif; font-size: 1.2em;" class="pt-1 ps-1">Lexical Questions</p>
+          <img src="{% static 'parser_app/images/front/Logo.svg' %}" style="width: 150px; height: auto" alt="">
+          {% comment %} <p style="font-family: blocktastic, sans-serif; font-size: 1.2em;" class="pt-1 ps-1">Lexical Questions</p> {% endcomment %}
         </a>
         <div class="col-md-3 text-center">
           {% if request.get_full_path == '/child_questions/'%}<a href="{% url 'index' %}"><button type="button" class="btn btn-outline-primary me-2">Show adult questions</button></a> {% endif %}
