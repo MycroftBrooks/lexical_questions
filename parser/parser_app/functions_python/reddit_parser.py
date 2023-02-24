@@ -47,9 +47,7 @@ def reddit_parser(word_input, title_list):
                     title = post.title
                     res = re.findall(word, title)
                     for e in res:
-                        title = title.replace(
-                            e, f"<mark><span style='color:green'>{e}</span></mark>"
-                        )
+                        title = title.replace(e, f"<u><i><span>{e}</span></i></u>")
                     data = {"title": title}
                     title_list.append(data)
             else:
