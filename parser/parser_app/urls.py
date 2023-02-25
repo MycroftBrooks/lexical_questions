@@ -26,6 +26,7 @@ urlpatterns = [
         views.list_of_students,
         name="list_of_students",
     ),
+    path("pdfloader", views.pdfloader_page, name="pdfloader"),
 ]
 """ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) """
