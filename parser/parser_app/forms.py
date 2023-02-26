@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth import password_validation
-from django.forms import inlineformset_factory
+from django.forms import TextInput, inlineformset_factory
 from .models import *
 
 username_validator = UnicodeUsernameValidator()
@@ -149,3 +149,16 @@ class QuestionForm(forms.ModelForm):
 TestFormset = inlineformset_factory(
     Test, Question, QuestionForm, extra=2, can_delete=False
 )
+
+
+class pdfloaderForm(forms.ModelForm):
+    class Meta:
+        model = Bookpdf
+        fields = ["title", "pdf"]
+        labels = {
+            "title": "Название книги",
+            "pdf": "pdf",
+        }
+        widgets = {
+            "title": TextInput(attrs={"class": "form-control"}),
+        }
