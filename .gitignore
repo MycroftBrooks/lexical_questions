@@ -1,5 +1,5 @@
 **/.env
-db.sqlite3
+*.sqlite3
 .vscode/launch.json
 **/test.txt
 # Byte-compiled / optimized / DLL files
