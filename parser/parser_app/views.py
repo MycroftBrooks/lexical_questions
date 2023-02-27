@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from .forms import RegisterUserFrom
 from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -118,3 +119,10 @@ def logout_user(request):
     logout(request)
     messages.warning(request, ("Вы вышли из аккаунта"))
     return redirect("index")
+
+
+@login_required(login_url="/")
+def profile(request):
+    user_info = User.objects.all()
+    context = {"user_info": user_info}
+    return render(request, "parser_app/profile.html", context)
