@@ -21,6 +21,11 @@ urlpatterns = [
         views.update_test,
         name="update_test",
     ),
+    path(
+        "profile/test_list/list_of_students/",
+        views.list_of_students,
+        name="list_of_students",
+    ),
 ]
 """ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) """
