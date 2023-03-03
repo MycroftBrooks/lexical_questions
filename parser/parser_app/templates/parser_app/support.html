@@ -1,0 +1,5 @@
+{% extends 'parser_app/base.html' %} {% block title %}Lexical
+Questions:Support{% endblock %} {%block content%} <form action"" method="post">
+{%csrf_token %} {{ form.as_p }}
+<button type="submit" class="btn btn-success">Submit</button>
+{%endblock%}

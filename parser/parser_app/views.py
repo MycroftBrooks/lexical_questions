@@ -1,11 +1,13 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
-from .forms import RegisterUserFrom
+from .forms import RegisterUserForm, SupportForm
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import logging
+from django.core.mail import send_mail
 
 logging.basicConfig(level=logging.INFO)
 
@@ -79,11 +81,28 @@ def child_questions(request):
         return render(request, "parser_app/child_questions.html")
 
 
+def support(request):
+    if request.method == "POST":
+        form = SupportForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+            subject = form.cleaned_data.get("subject")
+            message = form.cleaned_data.get("message")
+            messages.success(
+                request, ("Техподдержка ответит вам скоро по этому email: " + email)
+            )
+            send_mail(subject, message, email, ["akim.zemar@gmail.com"])
+            return redirect("index")
+    else:
+        form = SupportForm()
+    return render(request, "parser_app/support.html", {"form": form})
+
+
 # Registarion page
 @anonymous_required
 def register(request):
     if request.method == "POST":
-        form = RegisterUserFrom(request.POST)
+        form = RegisterUserForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
@@ -93,7 +112,7 @@ def register(request):
             messages.success(request, ("Вы зарегистрировались как " + username))
             return redirect("index")
     else:
-        form = RegisterUserFrom()
+        form = RegisterUserForm()
     return render(request, "parser_app/register.html", {"form": form})
 
 
