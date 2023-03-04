@@ -6,8 +6,9 @@ Profile{%endblock %} {%block content%}
       <div class="col">
         <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
           <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">User</a></li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'index' %}">Home</a>
+            </li>
             <li class="breadcrumb-item active" aria-current="page">
               User Profile
             </li>
@@ -117,7 +118,6 @@ Profile{%endblock %} {%block content%}
             </div>
           </div>
         </div>
-        {% comment %} {%endfor%} {% endcomment %}
         <div class="row">
           <div class="col-md-6">
             <div class="card mb-4 mb-md-0">

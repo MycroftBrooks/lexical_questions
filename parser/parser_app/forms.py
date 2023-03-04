@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+
+# https://www.guguweb.com/2014/09/10/group-combo-box-django-user-profile-form/
 
 
 class RegisterUserFrom(UserCreationForm):
