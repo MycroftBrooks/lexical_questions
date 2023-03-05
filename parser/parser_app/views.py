@@ -7,7 +7,9 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import logging
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 logging.basicConfig(level=logging.INFO)
 
@@ -88,10 +90,25 @@ def support(request):
             email = form.cleaned_data.get("email")
             subject = form.cleaned_data.get("subject")
             message = form.cleaned_data.get("message")
+            template = render_to_string(
+                "parser_app/email_template.html",
+                {"email": email, "subject": subject, "message": message},
+            )
+            plain_template = strip_tags(template)
             messages.success(
                 request, ("Техподдержка ответит вам скоро по этому email: " + email)
             )
-            send_mail(subject, message, email, ["akim.zemar@gmail.com"])
+            email = EmailMultiAlternatives(
+                subject,
+                plain_template,
+                settings.EMAIL_HOST_USER,
+                [settings.EMAIL_HOST_USER],
+            )
+            email.attach_alternative(template, "text/html")
+            email.fail_silently = False
+            email.send()
+
+            # nlrfnozblflsaypx
             return redirect("index")
     else:
         form = SupportForm()
