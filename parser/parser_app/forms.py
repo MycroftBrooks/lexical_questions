@@ -26,6 +26,7 @@ class RegisterUserForm(UserCreationForm):
             attrs={"class": "form-control", "placeholder": "Введите фамилию"}
         ),
     )
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
 
     class Meta:
         model = User
@@ -36,13 +37,24 @@ class RegisterUserForm(UserCreationForm):
             "password2",
             "first_name",
             "last_name",
+            "group",
         ]
         labels = {
             "username": "Имя пользователя",
             "email": "Email",
             "password1": "Пароль",
             "password2": "Подтверждение пароля",
+            "group": "Выберите роль",
         }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        group_name = self.cleaned_data["group"]
+        group = Group.objects.get(name=group_name)
+        user.group = group
+        if commit:
+            user.save()
+        return user
 
     def __init__(self, *args, **kwargs):
         super(RegisterUserForm, self).__init__(*args, **kwargs)

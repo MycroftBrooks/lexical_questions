@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.dispatch import receiver
 from django.shortcuts import redirect, render
 from .forms import RegisterUserForm, SupportForm
 from django.contrib.auth.decorators import user_passes_test
@@ -10,6 +11,7 @@ import logging
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.db.models.signals import post_save
 
 logging.basicConfig(level=logging.INFO)
 
@@ -184,5 +186,12 @@ def update_profile(request):
             return redirect("profile")
     else:
         form = RegisterUserForm(instance=user_info)
+        del form.fields["group"]
     context = {"form": form}
     return render(request, "parser_app/update_profile.html", context)
+
+
+@receiver(post_save, sender=User)
+def add_user_to_group(sender, instance, created, **kwargs):
+    if created:
+        instance.groups.add(instance.group)
