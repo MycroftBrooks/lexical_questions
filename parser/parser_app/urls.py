@@ -13,6 +13,7 @@ urlpatterns = [
     path("logout", views.logout_user, name="logout"),
     path("profile/", views.profile, name="profile"),
     path("support/", views.support, name="support"),
+    path("update_profile/", views.update_profile, name="update_profile"),
 ]
 """ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) """

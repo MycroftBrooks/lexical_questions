@@ -83,16 +83,23 @@ def child_questions(request):
         return render(request, "parser_app/child_questions.html")
 
 
+# Help page
 def support(request):
     if request.method == "POST":
-        form = SupportForm(request.POST)
+        form = SupportForm(request.POST, request.FILES)
         if form.is_valid():
             email = form.cleaned_data.get("email")
             subject = form.cleaned_data.get("subject")
             message = form.cleaned_data.get("message")
+            image = form.cleaned_data.get("image")
             template = render_to_string(
                 "parser_app/email_template.html",
-                {"email": email, "subject": subject, "message": message},
+                {
+                    "email": email,
+                    "subject": subject,
+                    "message": message,
+                    "image": image,
+                },
             )
             plain_template = strip_tags(template)
             messages.success(
@@ -105,10 +112,7 @@ def support(request):
                 [settings.EMAIL_HOST_USER],
             )
             email.attach_alternative(template, "text/html")
-            email.fail_silently = False
             email.send()
-
-            # nlrfnozblflsaypx
             return redirect("index")
     else:
         form = SupportForm()
@@ -157,8 +161,28 @@ def logout_user(request):
     return redirect("index")
 
 
+# Profile page
 @login_required(login_url="/")
 def profile(request):
     user_info = User.objects.all()
     context = {"user_info": user_info}
     return render(request, "parser_app/profile.html", context)
+
+
+# Update profile page
+@login_required(login_url="/")
+def update_profile(request):
+    user_info = User.objects.get(id=request.user.id)
+    if request.method == "POST":
+        form = RegisterUserForm(request.POST or None, instance=user_info)
+        if form.is_valid():
+            form.save()
+            user_info.username = request.POST["username"]
+            user_info.email = request.POST["email"]
+            login(request, user_info)
+            messages.success(request, "Данные успешно обновлены")
+            return redirect("profile")
+    else:
+        form = RegisterUserForm(instance=user_info)
+    context = {"form": form}
+    return render(request, "parser_app/update_profile.html", context)

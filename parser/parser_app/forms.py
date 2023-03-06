@@ -49,8 +49,8 @@ class RegisterUserForm(UserCreationForm):
 
         self.fields["username"].widget.attrs["class"] = "form-control"
         self.fields["password1"].widget.attrs["class"] = "form-control"
-        self.fields["password2"].widget.attrs["class"] = "form-control"\
-        
+        self.fields["password2"].widget.attrs["class"] = "form-control"
+
 
 class SupportForm(forms.Form):
     email = forms.EmailField(
@@ -74,12 +74,4 @@ class SupportForm(forms.Form):
             attrs={"class": "form-control", "placeholder": "Write your problem"}
         ),
     )
-
-    class Meta:
-        fields = ["email", "message"]
-
-    def __init__(self, *args, **kwargs):
-        super(SupportForm, self).__init__(*args, **kwargs)
-
-        self.fields["email"].widget.attrs["class"] = "form-control"
-        self.fields["message"].widget.attrs["class"] = "form-control"\
+    # image = forms.ImageField(required=False)
