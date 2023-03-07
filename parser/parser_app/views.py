@@ -177,6 +177,26 @@ def test_create(request):
     )
 
 
+@group_required("Учитель", url="profile")
+def list_of_students(request):
+    students = User.objects.filter(groups__name="Ученик")
+    return render(request, "parser_app/list_of_students.html", {"students": students})
+
+
+""" @group_required("Учитель", url="profile")
+def assign_test_to_student(request, pk):
+    user = User.objects.get(pk=pk)
+    if request.method == "POST":
+        form = AssignTestToStudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, ("Вы назначили тест студенту!"))
+            return redirect("profile")
+    else:
+        form = AssignTestToStudentForm()
+    return render(request, "parser_app/assign_test_to_student.html", {"form": form}) """
+
+
 # <----------------------------------->
 
 # Registarion page
