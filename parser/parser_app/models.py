@@ -8,25 +8,14 @@ class ChildQuestions(models.Model):
     question = models.CharField(max_length=200)
 
 
-class Test(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    time_limit = models.IntegerField()
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
 class Question(models.Model):
-    TEXT_QUESTION = "text"
-    MULTIPLE_CHOICE_QUESTION = "multiple_choice"
-    ESSAY_QUESTION = "essay"
-    QUESTION_TYPES = [
-        (TEXT_QUESTION, "Text question"),
-        (MULTIPLE_CHOICE_QUESTION, "Multiple choice question"),
-        (ESSAY_QUESTION, "Essay question"),
-    ]
     question_text = models.TextField()
-    question_type = models.CharField(max_length=20, choices=QUESTION_TYPES)
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+
+
+class Test(models.Model):
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tests")
+    title = models.CharField(max_length=255)
+    questions = models.ManyToManyField(Question, related_name="tests")
 
 
 class Answer(models.Model):

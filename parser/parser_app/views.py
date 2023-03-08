@@ -2,10 +2,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.dispatch import receiver
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from .forms import RegisterUserForm, SupportForm
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
 import logging
 from django.core.mail import EmailMultiAlternatives
@@ -19,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 from .functions_python.child_parser_db import *
 from .functions_python.reddit_parser import *
 from .functions_python.cambridge_parser import *
-from .models import ChildQuestions
+from .models import *
 
 title_list = []
 dictionary_definition = []
@@ -121,6 +120,73 @@ def support(request):
     return render(request, "parser_app/support.html", {"form": form})
 
 
+# Test section
+def test_list(request):
+    tests = request.user.tests.all()
+    return render(request, "test_list.html", {"tests": tests})
+
+
+@login_required
+def test_detail(request, test_id):
+    test = get_object_or_404(Test, pk=test_id)
+    if not request.user.is_teacher and not request.user in test.students.all():
+        return redirect("test_list")
+    questions = Question.objects.filter(test=test)
+    return render(request, "test_detail.html", {"test": test, "questions": questions})
+
+
+@login_required
+def score_list(request):
+    if request.user.is_teacher:
+        submissions = Submission.objects.filter(test__teacher=request.user)
+    else:
+        submissions = Submission.objects.filter(student=request.user)
+    return render(request, "score_list.html", {"submissions": submissions})
+
+
+@login_required
+def test_create(request):
+    if not request.user.is_teacher:
+        return redirect("test_list")
+    if request.method == "POST":
+        form = TestForm(request.POST)
+        if form.is_valid():
+            test = form.save(commit=False)
+            test.teacher = request.user
+            test.save()
+            form.save_m2m()
+            return redirect("test_list")
+    else:
+        form = TestForm()
+    return render(request, "test_create.html", {"form": form})
+
+
+@login_required
+def test_assign(request, test_id):
+    if not request.user.is_teacher:
+        return redirect("test_list")
+    test = get_object_or_404(Test, pk=test_id)
+    if request.method == "POST":
+        students = request.POST.getlist("students")
+        test.students.set(students)
+        test.save()
+        return redirect("test_detail", test_id=test.id)
+    else:
+        all_students = User.objects.filter(is_teacher=False)
+        assigned_students = test.students.all()
+        return render(
+            request,
+            "test_assign.html",
+            {
+                "test": test,
+                "all_students": all_students,
+                "assigned_students": assigned_students,
+            },
+        )
+
+
+# <----------------------------------->
+
 # Registarion page
 @anonymous_required
 def register(request):
@@ -157,6 +223,7 @@ def login_user(request):
 
 
 # Logout redirect
+@login_required(login_url="/")
 def logout_user(request):
     logout(request)
     messages.warning(request, ("Вы вышли из аккаунта"))
@@ -191,6 +258,7 @@ def update_profile(request):
     return render(request, "parser_app/update_profile.html", context)
 
 
+# Assign a role
 @receiver(post_save, sender=User)
 def add_user_to_group(sender, instance, created, **kwargs):
     if created:
