@@ -121,69 +121,6 @@ def support(request):
 
 
 # Test section
-@login_required
-def test_list(request):
-    tests = request.user.tests.all()
-    return render(request, "test_list.html", {"tests": tests})
-
-
-@login_required
-def test_detail(request, test_id):
-    test = get_object_or_404(Test, pk=test_id)
-    if not request.user.is_teacher and not request.user in test.students.all():
-        return redirect("test_list")
-    questions = Question.objects.filter(test=test)
-    return render(request, "test_detail.html", {"test": test, "questions": questions})
-
-
-@login_required
-def score_list(request):
-    if request.user.is_teacher:
-        submissions = Submission.objects.filter(test__teacher=request.user)
-    else:
-        submissions = Submission.objects.filter(student=request.user)
-    return render(request, "score_list.html", {"submissions": submissions})
-
-
-@login_required
-def test_create(request):
-    if not request.user.is_teacher:
-        return redirect("test_list")
-    if request.method == "POST":
-        form = TestForm(request.POST)
-        if form.is_valid():
-            test = form.save(commit=False)
-            test.teacher = request.user
-            test.save()
-            form.save_m2m()
-            return redirect("test_list")
-    else:
-        form = TestForm()
-    return render(request, "test_create.html", {"form": form})
-
-
-@login_required
-def test_assign(request, test_id):
-    if not request.user.is_teacher:
-        return redirect("test_list")
-    test = get_object_or_404(Test, pk=test_id)
-    if request.method == "POST":
-        students = request.POST.getlist("students")
-        test.students.set(students)
-        test.save()
-        return redirect("test_detail", test_id=test.id)
-    else:
-        all_students = User.objects.filter(is_teacher=False)
-        assigned_students = test.students.all()
-        return render(
-            request,
-            "test_assign.html",
-            {
-                "test": test,
-                "all_students": all_students,
-                "assigned_students": assigned_students,
-            },
-        )
 
 
 # <----------------------------------->
