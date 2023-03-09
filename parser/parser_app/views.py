@@ -121,6 +121,7 @@ def support(request):
 
 
 # Test section
+@login_required
 def test_list(request):
     tests = request.user.tests.all()
     return render(request, "test_list.html", {"tests": tests})
@@ -206,6 +207,7 @@ def register(request):
 
 
 # Login page
+@anonymous_required
 def login_user(request):
     if request.method == "POST":
         username = request.POST["username"]
