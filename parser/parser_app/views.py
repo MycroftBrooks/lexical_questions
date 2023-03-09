@@ -11,6 +11,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.db.models.signals import post_save
+import asyncio
 
 logging.basicConfig(level=logging.INFO)
 
@@ -53,7 +54,7 @@ def index(request):
         dictionary_examples.clear()
         word_input = str(request.POST["word_input"])
         cambridge_parser(word_input, dictionary_definition, dictionary_examples)
-        reddit_parser(word_input, title_list)
+        asyncio.run(reddit_parser(word_input, title_list))
         context = {
             "title_list": title_list,
             "word_input": word_input,
