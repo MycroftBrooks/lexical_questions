@@ -1,10 +1,37 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
-from django.core.mail import send_mail
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.contrib.auth import password_validation
+
+username_validator = UnicodeUsernameValidator()
 
 
 class RegisterUserForm(UserCreationForm):
+    error_messages = {
+        "password_mismatch": ("Пароли не схожи"),
+    }
+    username = forms.CharField(
+        required=True,
+        label=("Имя пользователя"),
+        max_length=150,
+        help_text=(""),
+        validators=[username_validator],
+        error_messages={"unique": ("Такой пользователь существует")},
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+    )
+    password1 = forms.CharField(
+        required=True,
+        label=("Пароль"),
+        widget=(forms.PasswordInput(attrs={"class": "form-control"})),
+        help_text="",
+    )
+    password2 = forms.CharField(
+        required=True,
+        label=("Подтверждение пароля"),
+        widget=forms.PasswordInput(attrs={"class": "form-control"}),
+        help_text=("Введите пароль повторно"),
+    )
     email = forms.EmailField(
         label="Email",
         required=True,
@@ -55,13 +82,6 @@ class RegisterUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
-
-    def __init__(self, *args, **kwargs):
-        super(RegisterUserForm, self).__init__(*args, **kwargs)
-
-        self.fields["username"].widget.attrs["class"] = "form-control"
-        self.fields["password1"].widget.attrs["class"] = "form-control"
-        self.fields["password2"].widget.attrs["class"] = "form-control"
 
 
 class SupportForm(forms.Form):
