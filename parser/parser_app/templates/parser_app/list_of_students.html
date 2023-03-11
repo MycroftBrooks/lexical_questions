@@ -1,0 +1,48 @@
+{% extends 'parser_app/base.html' %}
+
+{%block title%}List of students{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                <a href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">
+                    <a href="{% url 'profile' %}">User Profile</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">
+                    <a href="{% url 'test_list' %}">Test List</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <a>List of students</a>
+                </li>
+            </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <h4 class="text-center">Student list</h1>
+        </div>
+    </div>
+        {% for student in students %}
+        <div class="container border border-secondary-subtle mb-3 form-control">
+            <div class="card-body">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between pb-3 pt-3">
+                        <h5 class="card-title">{{ student.username }}</h5>
+                        <div class="col-md-3 text-center">
+                        </div>  
+                        <div class="col-md-3 text-end">
+                            <a href="#" class="btn btn-success">123213213213</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+</div>
+
+{% endblock %}
