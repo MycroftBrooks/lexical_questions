@@ -13,7 +13,7 @@ class RegisterUserForm(UserCreationForm):
     }
     username = forms.CharField(
         required=True,
-        label=("Имя пользователя"),
+        label=("Имя пользователя*"),
         max_length=150,
         help_text=(""),
         validators=[username_validator],
@@ -22,38 +22,40 @@ class RegisterUserForm(UserCreationForm):
     )
     password1 = forms.CharField(
         required=True,
-        label=("Пароль"),
+        label=("Пароль*"),
         widget=(forms.PasswordInput(attrs={"class": "form-control"})),
         help_text="",
     )
     password2 = forms.CharField(
         required=True,
-        label=("Подтверждение пароля"),
+        label=("Подтверждение пароля*"),
         widget=forms.PasswordInput(attrs={"class": "form-control"}),
         help_text=("Введите пароль повторно"),
     )
     email = forms.EmailField(
-        label="Email",
+        label="Email*",
         required=True,
         widget=forms.EmailInput(
             attrs={"class": "form-control", "placeholder": "Введите email"}
         ),
     )
     first_name = forms.CharField(
-        label="Имя",
+        label="Имя*",
         required=True,
         widget=forms.TextInput(
             attrs={"class": "form-control", "placeholder": "Введите имя"}
         ),
     )
     last_name = forms.CharField(
-        label="Фамилия",
+        label="Фамилия*",
         required=True,
         widget=forms.TextInput(
             attrs={"class": "form-control", "placeholder": "Введите фамилию"}
         ),
     )
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)
+    group = forms.ModelChoiceField(
+        label="Роль*", queryset=Group.objects.all(), required=True
+    )
 
     class Meta:
         model = User
