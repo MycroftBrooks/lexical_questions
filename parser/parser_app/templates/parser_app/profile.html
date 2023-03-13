@@ -16,7 +16,6 @@ Profile{%endblock %} {%block content%}
         </nav>
       </div>
     </div>
-    {% comment %} {%for user in user_info%} {% endcomment %}
     <div class="row">
       <div class="col-lg-4">
         <div class="card mb-4">
@@ -25,6 +24,9 @@ Profile{%endblock %} {%block content%}
             <p class="text-muted mb-1">Full Stack Developer</p>
             <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
             <div class="d-flex justify-content-center mb-2">
+              {% for group_for in request.user.groups.all %}
+                  {% if group_for.name == 'Учитель' %}<a href="{%url 'quiz_create'%}" type="button" class="btn btn-success me-2">Create Quiz</a>{%endif%}
+                {% endfor %}
               <a href="{% url 'update_profile'%}">
                 <button type="button" class="btn btn-outline-primary ms-1">
                   Edit profile
