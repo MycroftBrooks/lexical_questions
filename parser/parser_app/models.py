@@ -15,9 +15,11 @@ class ChildQuestions(models.Model):
 
 
 class Quiz(models.Model):
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.CharField(max_length=300)
     answer = models.CharField(max_length=1, choices=ANSWER_CHOICES)
+    number_of_test = models.IntegerField()
 
     def __str__(self):
         return self.question

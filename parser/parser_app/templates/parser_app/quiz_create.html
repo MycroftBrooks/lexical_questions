@@ -1,0 +1,13 @@
+{% extends 'parser_app/base.html' %}
+
+{%block title%}Quiz creation{%endblock%}
+
+{% block content %}
+<div class="shadow p-4 mb-5 bg-body rounded container">
+    <form class="form-horizontal" method="POST" action="">
+        {{form.as_p}}
+        <input type="submit" value="Add" class="btn btn-success me-2">
+    </form>
+</div>
+
+{%endblock%}

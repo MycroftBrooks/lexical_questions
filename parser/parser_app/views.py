@@ -3,7 +3,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.dispatch import receiver
 from django.shortcuts import redirect, render, get_object_or_404
-from .forms import RegisterUserForm, SupportForm
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
 import logging
@@ -19,6 +18,7 @@ logging.basicConfig(level=logging.INFO)
 from .functions_python.child_parser_db import *
 from .functions_python.reddit_parser import *
 from .functions_python.cambridge_parser import *
+from .forms import RegisterUserForm, SupportForm, QuizFormset
 from .models import *
 
 title_list = []
@@ -122,6 +122,23 @@ def support(request):
 
 
 # Test section
+def quiz_create(request):
+    context = {
+        "form": form,
+    }
+    if request.method == "GET":
+        form = QuizFormset(request.GET or None)
+    elif request.method == "POST":
+        form = QuizFormset(request.POST)
+        if form.is_valid():
+            for form in form:
+                question = form.cleaned_data.get("name")
+                answer = form.cleaned_data.get("answer")
+                if question and answer:
+                    Quiz(question=question).save()
+                    Quiz(answer=answer).save()
+            return redirect("profile")
+    return render(request, "parser_app/quiz_create.html", context)
 
 
 # <----------------------------------->
