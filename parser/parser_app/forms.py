@@ -3,6 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth import password_validation
+from django.forms import formset_factory
+
+from .models import Quiz
 
 username_validator = UnicodeUsernameValidator()
 
@@ -108,4 +111,21 @@ class SupportForm(forms.Form):
             attrs={"class": "form-control", "placeholder": "Write your problem"}
         ),
     )
-    # image = forms.ImageField(required=False)
+
+
+class QuizForm(forms.Form):
+    class Meta:
+        model = Quiz
+        fields = ["question", "answer"]
+        labels = {
+            "question": "Вопрос",
+            "answer": "Ответ",
+        }
+        widgets = {
+            "question": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "Введите вопрос"}
+            ),
+        }
+
+
+QuizFormset = formset_factory(QuizForm, extra=1, max_num=20)
