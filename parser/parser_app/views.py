@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 from .functions_python.child_parser_db import *
 from .functions_python.reddit_parser import *
 from .functions_python.cambridge_parser import *
-from .forms import RegisterUserForm, SupportForm, QuizFormset
+from .forms import RegisterUserForm, SupportForm, TestFormset, TestCreationForm
 from .models import *
 
 title_list = []
@@ -122,23 +122,19 @@ def support(request):
 
 
 # Test section
-def quiz_create(request):
-    context = {
-        "form": form,
-    }
-    if request.method == "GET":
-        form = QuizFormset(request.GET or None)
-    elif request.method == "POST":
-        form = QuizFormset(request.POST)
-        if form.is_valid():
-            for form in form:
-                question = form.cleaned_data.get("name")
-                answer = form.cleaned_data.get("answer")
-                if question and answer:
-                    Quiz(question=question).save()
-                    Quiz(answer=answer).save()
+def test_create(request):
+    form = TestFormset(request.POST or None)
+    form2 = TestCreationForm(request.POST)
+    if request.method == "POST":
+        if form.is_valid() and form2.is_valid():
+            form.instance = Test.objects.create(
+                user=request.user, description=form2.cleaned_data.get("description")
+            )
+            form.save()
             return redirect("profile")
-    return render(request, "parser_app/quiz_create.html", context)
+    return render(
+        request, "parser_app/quiz_create.html", {"formset": form, "form": form2}
+    )
 
 
 # <----------------------------------->
