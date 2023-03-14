@@ -3,9 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.contrib.auth import password_validation
-from django.forms import formset_factory
-
-from .models import Quiz
+from django.forms import inlineformset_factory
+from .models import *
 
 username_validator = UnicodeUsernameValidator()
 
@@ -113,19 +112,40 @@ class SupportForm(forms.Form):
     )
 
 
-class QuizForm(forms.Form):
+class TestCreationForm(forms.ModelForm):
+    description = forms.CharField(
+        label="Description",
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Write decription for your test",
+            }
+        ),
+    )
+
     class Meta:
-        model = Quiz
-        fields = ["question", "answer"]
-        labels = {
-            "question": "Вопрос",
-            "answer": "Ответ",
-        }
-        widgets = {
-            "question": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Введите вопрос"}
-            ),
-        }
+        model = Test
+        fields = ["description"]
 
 
-QuizFormset = formset_factory(QuizForm, extra=1, max_num=20)
+class QuestionForm(forms.ModelForm):
+    question = forms.CharField(
+        label="Question",
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Write your question",
+            }
+        ),
+    )
+
+    class Meta:
+        model = Question
+        fields = "__all__"
+
+
+TestFormset = inlineformset_factory(
+    Test, Question, QuestionForm, extra=2, can_delete=False
+)
