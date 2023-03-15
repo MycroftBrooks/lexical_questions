@@ -136,6 +136,11 @@ def support(request):
 
 
 # Test section
+def test_list(request):
+    test_list = Test.objects.filter(user=request.user)
+    return render(request, "parser_app/test_list.html", {"test_list": test_list})
+
+
 @group_required("Учитель", url="profile")
 def test_create(request):
     form = TestFormset(request.POST or None)
