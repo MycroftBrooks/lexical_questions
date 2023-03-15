@@ -20,6 +20,6 @@ class Test(models.Model):
 
 
 class Question(models.Model):
-    test = models.ForeignKey(Test, on_delete=models.CASCADE)
+    test = models.ForeignKey(Test, related_name="questions", on_delete=models.CASCADE)
     question = models.CharField(max_length=200)
     right_answer = models.CharField(max_length=1, choices=ANSWER_CHOICES)
