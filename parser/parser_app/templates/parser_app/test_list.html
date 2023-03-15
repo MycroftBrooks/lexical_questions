@@ -1,0 +1,30 @@
+{% extends 'parser_app/base.html' %}
+
+{%block title%}List of your tests{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <h1 class="text-center">List of your tests</h1>
+        </div>
+    </div>
+        {% for test in test_list %}
+        <div class="container border border-secondary-subtle mb-3 form-control">
+            <div class="card-body">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between pb-3 pt-3">
+                        <h5 class="card-title">{{ test.description }}</h5>
+                        <div class="col-md-3 text-center">
+                            {% comment %} <p class="card-text">Contains {{test.count}}</p> {% endcomment %}
+                        </div>  
+                        <div class="col-md-3 text-end">
+                            <a href="#" class="btn btn-success">Update</a>
+                            <a href="#" class="btn btn-primary">Assign test to student</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+</div>
+
+{% endblock %}
