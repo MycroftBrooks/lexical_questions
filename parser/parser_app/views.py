@@ -136,6 +136,25 @@ def support(request):
 
 
 # Test section
+def update_test(request, test_id):
+    test_info = Test.objects.get(pk=test_id)
+    if request.method == "POST":
+        form = TestFormset(request.POST or None, instance=test_info)
+        form2 = TestCreationForm(request.POST or None, instance=test_info)
+        if form.is_valid() and form2.is_valid():
+            form.save()
+            form2.save()
+            messages.success(request, ("Вы обновили тест!"))
+            return redirect("test_list")
+    else:
+        form = TestFormset(instance=test_info)
+        form2 = TestCreationForm(instance=test_info)
+    return render(
+        request, "parser_app/quiz_create.html", {"formset": form, "form": form2}
+    )
+
+
+@login_required(login_url="/")
 def test_list(request):
     test_list = Test.objects.filter(user=request.user)
     return render(request, "parser_app/test_list.html", {"test_list": test_list})
