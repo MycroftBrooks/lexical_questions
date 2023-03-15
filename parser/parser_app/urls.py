@@ -15,7 +15,7 @@ urlpatterns = [
     path("support/", views.support, name="support"),
     path("update_profile/", views.update_profile, name="update_profile"),
     path("profile/test_create/", views.test_create, name="test_create"),
-    # path("profile/quiz_create/<pk>/", views.quiz_create, name="quiz_create"),
+    path("profile/test_list/", views.test_list, name="test_list"),
 ]
 """ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) """
