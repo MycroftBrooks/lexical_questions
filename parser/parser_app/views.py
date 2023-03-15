@@ -146,6 +146,7 @@ def test_create(request):
                 user=request.user, description=form2.cleaned_data.get("description")
             )
             form.save()
+            messages.success(request, ("Вы создали тест!"))
             return redirect("profile")
     return render(
         request, "parser_app/quiz_create.html", {"formset": form, "form": form2}
