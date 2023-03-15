@@ -18,7 +18,7 @@
                             {% comment %} <p class="card-text">Contains {{test.count}}</p> {% endcomment %}
                         </div>  
                         <div class="col-md-3 text-end">
-                            <a href="#" class="btn btn-success">Update</a>
+                            <a href="{% url 'update_test' test.id %}" class="btn btn-success">Update</a>
                             <a href="#" class="btn btn-primary">Assign test to student</a>
                     </div>
                 </div>
