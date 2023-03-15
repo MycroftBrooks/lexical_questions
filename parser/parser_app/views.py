@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.dispatch import receiver
-from django.shortcuts import redirect, render, get_object_or_404
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
 import logging
@@ -39,6 +39,20 @@ def anonymous_required(function=None, redirect_url="index"):
     if function:
         return actual_decorator(function)
     return actual_decorator
+
+
+# Decorator for views that checks that the user belongs to group, redirecting
+def group_required(*groups, url):
+    def decorator(function):
+        def wrapper(request, *args, **kwargs):
+            if request.user.groups.filter(name__in=groups).exists():
+                return function(request, *args, **kwargs)
+            else:
+                return redirect(url)
+
+        return wrapper
+
+    return decorator
 
 
 # Adult section main page
@@ -122,6 +136,7 @@ def support(request):
 
 
 # Test section
+@group_required("Учитель", url="profile")
 def test_create(request):
     form = TestFormset(request.POST or None)
     form2 = TestCreationForm(request.POST)
