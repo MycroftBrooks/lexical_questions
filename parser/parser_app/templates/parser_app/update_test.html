@@ -1,0 +1,13 @@
+{% extends 'parser_app/base.html' %} 
+{%block title%}Update test{%endblock%} 
+{%block content%}
+    <div class="shadow p-4 mb-5 bg-body rounded">
+    <h1 class="text-center">Edit Test</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %} 
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Edit</button>
+        <span>{{error}}</span>
+    </form>
+    </div>
+{%endblock%}
