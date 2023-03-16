@@ -5,8 +5,25 @@
 {% block content %}
 <div class="container">
     <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                <a href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">
+                    <a href="{% url 'profile' %}">User Profile</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <a>Test list</a>
+                </li>
+            </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-12 mb-3">
-            <h1 class="text-center">List of your tests</h1>
+            <h4 class="text-center">Test list for "{{ user.username }}"</h1>
         </div>
     </div>
         {% for test in test_list %}
