@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 ANSWER_CHOICES = (
@@ -17,6 +17,7 @@ class ChildQuestions(models.Model):
 class Test(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(max_length=300)
+    students = models.ManyToManyField(User, related_name="students", blank=True)
 
 
 class Question(models.Model):
