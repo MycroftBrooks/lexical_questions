@@ -150,7 +150,7 @@ def update_test(request, test_id):
         form = TestFormset(instance=test_info)
         form2 = TestCreationForm(instance=test_info)
     return render(
-        request, "parser_app/quiz_create.html", {"formset": form, "form": form2}
+        request, "parser_app/update_test.html", {"formset": form, "form": form2}
     )
 
 
