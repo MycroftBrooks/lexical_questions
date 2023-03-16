@@ -1,8 +1,25 @@
 {% extends 'parser_app/base.html' %} 
 {%block title%}Update profile{%endblock%} 
 {%block content%}
+<div class="row">
+  <div class="col">
+      <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+      <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item">
+          <a href="{% url 'index' %}">Home</a>
+          </li>
+          <li class="breadcrumb-item" aria-current="page">
+              <a href="{% url 'profile' %}">User Profile</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+              <a>Edit profile</a>
+          </li>
+      </ol>
+      </nav>
+  </div>
+</div>
 <div class="shadow p-4 mb-5 bg-body rounded">
-  <h1 class="text-center">Редактировать профиль</h1>
+  <h1 class="text-center">Edit profile {{user.username}}</h1>
   <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %} 
     {{ form.as_p }}
