@@ -25,7 +25,8 @@ Profile{%endblock %} {%block content%}
             <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
             <div class="d-flex justify-content-center mb-2">
               {% for group_for in request.user.groups.all %}
-                  {% if group_for.name == 'Учитель' %}<a href="{%url 'quiz_create'%}" type="button" class="btn btn-success me-2">Create Quiz</a>{%endif%}
+                  {% if group_for.name == 'Учитель' %}<a href="{%url 'test_create' %}" type="button" class="btn btn-success me-2">Create Quiz</a>{%endif%}
+                  {% if group_for.name == 'Учитель' %}<a href="{%url 'test_list' %}" type="button" class="btn btn-secondary me-2">Test list</a>{%endif%}
                 {% endfor %}
               <a href="{% url 'update_profile'%}">
                 <button type="button" class="btn btn-outline-primary ms-1">
