@@ -3,6 +3,28 @@
 {%block title%}Quiz creation{%endblock%}
 
 {% block content %}
+<div class="row">
+    <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+            <a href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="breadcrumb-item" aria-current="page">
+                <a href="{% url 'profile' %}">User Profile</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                <a>Test create</a>
+            </li>
+        </ol>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <h4 class="text-center">Create test (current user is {{ user.username }})</h1>
+    </div>
+</div>
 <div class="shadow p-4 mb-5 bg-body rounded container">
     <form class="form-horizontal" method="POST" action="">
         {% csrf_token %}
