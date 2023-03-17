@@ -14,7 +14,7 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("support/", views.support, name="support"),
     path("update_profile/", views.update_profile, name="update_profile"),
-    path("profile/test_create/", views.test_create, name="test_create"),
+    path("profile/test_list/test_create/", views.test_create, name="test_create"),
     path("profile/test_list/", views.test_list, name="test_list"),
     path(
         "profile/test_list/update_test/<test_id>",
@@ -26,7 +26,7 @@ urlpatterns = [
         views.list_of_students,
         name="list_of_students",
     ),
-    path("profile/load/", views.bookloader, name="pdfloader"),
+    path("profile/load/", views.bookloader, name="bookloader"),
 ]
 """ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) """
