@@ -165,3 +165,9 @@ class pdfloaderForm(forms.ModelForm):
                 attrs={"class": "form-control", "accept": "application/pdf"}
             ),
         }
+
+
+class AssignTestToStudentForm(forms.ModelForm):
+    class Meta:
+        model = Test
+        fields = ["students"]
