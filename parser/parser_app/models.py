@@ -19,6 +19,9 @@ class Test(models.Model):
     description = models.TextField(max_length=300)
     students = models.ManyToManyField(User, related_name="students", blank=True)
 
+    def __str__(self):
+        return self.description
+
 
 class Question(models.Model):
     test = models.ForeignKey(Test, related_name="questions", on_delete=models.CASCADE)
@@ -31,3 +34,6 @@ class Bookpdf(models.Model):
     title = models.CharField(max_length=100)
     pdf = models.FileField(upload_to="static/parser_app/pdfs/")
     students = models.ManyToManyField(User, related_name="studentsBook", blank=True)
+
+    def __str__(self):
+        return self.title
