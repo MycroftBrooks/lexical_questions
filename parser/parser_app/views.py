@@ -162,6 +162,7 @@ def bookloader(request):
 
 
 # Test section
+@group_required("Учитель", url="profile")
 def update_test(request, test_id):
     test_info = Test.objects.get(pk=test_id)
     if request.method == "POST":
@@ -197,7 +198,7 @@ def test_create(request):
             )
             form.save()
             messages.success(request, ("Вы создали тест!"))
-            return redirect("profile")
+            return redirect("test_list")
     return render(
         request, "parser_app/quiz_create.html", {"formset": form, "form": form2}
     )
