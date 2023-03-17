@@ -23,7 +23,8 @@
     </div>
     <div class="row">
         <div class="col-md-12 mb-3">
-            <h4 class="text-center">Test list for "{{ user.username }}"</h1>
+            <h4 class="text-center">Test list for "{{ user.username }} </h4>
+            {% for group_for in request.user.groups.all %}{% if group_for.name == 'Учитель' %}<a href="{% url 'test_create' %}" class="btn btn-success">Add test</a>{% endif %}{% endfor %}
         </div>
     </div>
         {% for test in test_list %}
