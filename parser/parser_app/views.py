@@ -162,6 +162,11 @@ def bookloader(request):
     )
 
 
+def book_list(request):
+    context = {"books": Bookpdf.objects.all()}
+    return render(request, "parser_app/book_list.html", context)
+
+
 # Test section
 @group_required("Учитель", url="profile")
 def update_test(request, test_id):
