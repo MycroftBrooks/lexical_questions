@@ -156,9 +156,12 @@ class pdfloaderForm(forms.ModelForm):
         model = Bookpdf
         fields = ["title", "pdf"]
         labels = {
-            "title": "Название книги",
-            "pdf": "pdf",
+            "title": "Name of the book",
+            "pdf": "Upload pdf file",
         }
         widgets = {
             "title": TextInput(attrs={"class": "form-control"}),
+            "pdf": forms.FileInput(
+                attrs={"class": "form-control", "accept": "application/pdf"}
+            ),
         }
