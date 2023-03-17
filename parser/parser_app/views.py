@@ -162,6 +162,7 @@ def bookloader(request):
     )
 
 
+@login_required(login_url="/")
 def book_list(request):
     context = {"books": Bookpdf.objects.all()}
     return render(request, "parser_app/book_list.html", context)
