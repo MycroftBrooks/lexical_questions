@@ -29,5 +29,5 @@ class Question(models.Model):
 class Bookpdf(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    pdf = models.FileField(upload_to="pdfs/")
+    pdf = models.FileField(upload_to="static/parser_app/pdfs/")
     students = models.ManyToManyField(User, related_name="studentsBook", blank=True)
