@@ -1,0 +1,49 @@
+{% extends 'parser_app/base.html' %}
+
+{% block title %}Load Book{% endblock %}
+{%block content%}
+<div class="container mb-2">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                <a href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="breadcrumb-item" aria-current="page">
+                    <a href="{% url 'profile' %}">User Profile</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    <a>List of books</a>
+                </li>
+            </ol>
+            </nav>
+        </div>
+    </div>
+    {%if books|length > 0 %}
+        <div class="row col-md-12 mb-4">
+            <h4 class="text-center mb-3">List of books</h4>
+            {% for group_for in request.user.groups.all %}{% if group_for.name == 'Учитель' %}<a href="{% url 'bookloader' %}" class="btn btn-success my-3">Add book</a>{% endif %}{% endfor %}
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 g-2">
+            {%for book in books%}
+            <div class='col'>
+                <div class='card'>
+                    <div class='card-body col text-center'>
+                        <h3 class="mb-2">{{book.title}}</h3>
+                        <p class="mb-4">{{book.user.get_full_name}}</p>
+                        <a href="{{book.pdf.url}}" class="btn btn-primary" target="_blank">View and download</a>
+                    </div>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    {%endif%}
+    {%if books|length == 0 %}
+    <div class="row col-md-12 mb-3">
+        <h4 class="text-center">No books uploaded</h4>
+        {% for group_for in request.user.groups.all %}{% if group_for.name == 'Учитель' %}<a href="{% url 'bookloader' %}" class="btn btn-success my-3">Add book</a>{% endif %}{% endfor %}
+    </div>
+    {%endif%}
+</div>
+{% endblock %}
