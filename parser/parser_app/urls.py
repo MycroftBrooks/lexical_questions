@@ -26,7 +26,7 @@ urlpatterns = [
         views.list_of_students,
         name="list_of_students",
     ),
-    path("profile/load/", views.bookloader, name="bookloader"),
+    path("profile/books/load/", views.bookloader, name="bookloader"),
     path("profile/books/", views.book_list, name="book_list"),
 ]
 """ if settings.DEBUG:
