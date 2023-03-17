@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.dispatch import receiver
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth.models import User
@@ -18,7 +19,13 @@ logging.basicConfig(level=logging.INFO)
 from .functions_python.child_parser_db import *
 from .functions_python.reddit_parser import *
 from .functions_python.cambridge_parser import *
-from .forms import RegisterUserForm, SupportForm, TestFormset, TestCreationForm
+from .forms import (
+    RegisterUserForm,
+    SupportForm,
+    TestFormset,
+    TestCreationForm,
+    pdfloaderForm,
+)
 from .models import *
 
 title_list = []
@@ -133,6 +140,25 @@ def support(request):
     else:
         form = SupportForm()
     return render(request, "parser_app/support.html", {"form": form})
+
+
+@group_required("Учитель", url="profile")
+# Book loader for teachers
+def bookloader(request):
+    submitted = False
+    if request.method == "POST":
+        form = pdfloaderForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            return HttpResponseRedirect("/profile/load?submitted=True")
+    else:
+        form = pdfloaderForm
+        if "submitted" in request.GET:
+            submitted = True
+    return render(
+        request, "parser_app/bookloader.html", {"form": form, "submitted": submitted}
+    )
 
 
 # Test section
