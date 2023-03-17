@@ -156,7 +156,8 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-pdfs/
+books/
 .vscode
 parser/parser_app/functions_python/reddit_parser.py
 parser/parser_app/migrations/
+
