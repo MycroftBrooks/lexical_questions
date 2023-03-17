@@ -18,6 +18,9 @@
                 <li class="breadcrumb-item" aria-current="page">
                     <a href="{% url 'profile' %}">User Profile</a>
                 </li>
+                <li class="breadcrumb-item" aria-current="page">
+                    <a href={%url 'book_list' %}>List of books</a>
+                </li>
                 <li class="breadcrumb-item active" aria-current="page">
                     <a>Upload Book</a>
                 </li>
@@ -35,12 +38,9 @@
         <span>{{error}}</span>
       </div>
       <div class="d-flex flex-wrap align-items-center justify-content-center  pb-3 pt-3">
-        <div class="col-md-3 text-start">
+        <div class="col-md-3 text-center">
             <button type="submit" class="btn btn-primary ">Load pdf file</button>
         </div>  
-        <div class="col-md-3 text-end">
-            <a href="#" class="btn btn-secondary">Check the list of loaded books</a>
-        </div>
       </div>
   </form>
 </div>  
