@@ -168,6 +168,11 @@ class pdfloaderForm(forms.ModelForm):
 
 
 class AssignTestToStudentForm(forms.ModelForm):
+    students = forms.ModelMultipleChoiceField(
+        queryset=User.objects.filter(groups__name="Student"),
+        widget=forms.CheckboxSelectMultiple,
+    )
+
     class Meta:
         model = Test
         fields = ["students"]
