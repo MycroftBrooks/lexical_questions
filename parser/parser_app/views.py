@@ -25,7 +25,6 @@ from .forms import (
     TestFormset,
     TestCreationForm,
     pdfloaderForm,
-    AssignTestToStudentForm,
 )
 from .models import *
 
@@ -201,9 +200,12 @@ def test_create(request):
     if request.method == "POST":
         if form.is_valid() and form2.is_valid():
             form.instance = Test.objects.create(
-                user=request.user, description=form2.cleaned_data.get("description")
+                user=request.user,
+                students=form2.cleaned_data.get("students"),
+                description=form2.cleaned_data.get("description"),
             )
             form.save()
+            form2.save()
             messages.success(request, ("Вы создали тест!"))
             return redirect("test_list")
     return render(
@@ -215,21 +217,6 @@ def test_create(request):
 def list_of_students(request):
     students = User.objects.filter(groups__name="Ученик")
     return render(request, "parser_app/list_of_students.html", {"students": students})
-
-
-@group_required("Учитель", url="profile")
-def assign_test_to_student(request, pk):
-    user = User.objects.get(pk=pk)
-
-    if request.method == "POST":
-        form = AssignTestToStudentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, ("Вы назначили тест студенту!"))
-            return redirect("profile")
-    else:
-        form = AssignTestToStudentForm()
-    return render(request, "parser_app/assign_test_to_student.html", {"form": form})
 
 
 # <----------------------------------->
