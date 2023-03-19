@@ -113,9 +113,14 @@ class SupportForm(forms.Form):
 
 
 class TestCreationForm(forms.ModelForm):
+    students = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=User.objects.filter(groups__name="Ученик"),
+        widget=forms.CheckboxSelectMultiple,
+    )
     description = forms.CharField(
         label="Description",
-        required=False,
+        required=True,
         widget=forms.Textarea(
             attrs={
                 "class": "form-control",
@@ -126,7 +131,7 @@ class TestCreationForm(forms.ModelForm):
 
     class Meta:
         model = Test
-        fields = ["description"]
+        fields = ["students", "description"]
 
 
 class QuestionForm(forms.ModelForm):
@@ -165,14 +170,3 @@ class pdfloaderForm(forms.ModelForm):
                 attrs={"class": "form-control", "accept": "application/pdf"}
             ),
         }
-
-
-class AssignTestToStudentForm(forms.ModelForm):
-    students = forms.ModelMultipleChoiceField(
-        queryset=User.objects.filter(groups__name="Student"),
-        widget=forms.CheckboxSelectMultiple,
-    )
-
-    class Meta:
-        model = Test
-        fields = ["students"]
